@@ -14,8 +14,11 @@ class Web::AuthControllerTest < ActionDispatch::IntegrationTest
       uid: '12345',
       info: {
         email: Faker::Internet.email,
-        name: Faker::Name.first_name
-      }
+        image_url: Faker::Internet.url,
+        name: Faker::Name.first_name,
+        nickname: Faker::Internet.username
+      },
+      credentials: { token: Faker::Internet.uuid }
     }
 
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash::InfoHash.new(auth_hash)
@@ -25,7 +28,7 @@ class Web::AuthControllerTest < ActionDispatch::IntegrationTest
 
     user = User.find_by!(email: auth_hash[:info][:email].downcase)
 
-    assert user
-    assert signed_in?
+    assert { user }
+    assert { signed_in? }
   end
 end
