@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+gem 'enumerize'
 gem 'faker'
 gem 'octokit'
 gem 'omniauth'
@@ -64,6 +65,7 @@ group :test do
   gem 'webdrivers'
 
   gem 'minitest-power_assert'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
