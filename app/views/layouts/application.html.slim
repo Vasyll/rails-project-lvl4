@@ -1,0 +1,19 @@
+doctype html
+html.h-100
+  head
+    title
+      'Hexlet Github Quality'
+    = csrf_meta_tags
+    = csp_meta_tag
+    meta[name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"]
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+  body.d-flex.flex-column.h-100
+    = render 'layouts/shared/nav'
+    = render 'layouts/shared/flash'
+    main
+      .mt-4.mb-5.pb-5
+        .container
+          = yield
+    = render 'layouts/shared/footer'

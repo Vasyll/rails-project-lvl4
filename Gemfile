@@ -35,6 +35,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'rollbar'
+gem 'simple_form'
 gem 'slim-rails'
 
 group :development, :test do

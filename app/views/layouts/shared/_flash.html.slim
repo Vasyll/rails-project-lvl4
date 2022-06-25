@@ -1,0 +1,7 @@
+- if flash.any?
+  - flash.each do |type, msg|
+    - alert_name = 'alert-info'
+    - alert_name = 'alert-danger' if type == 'alert'
+    .container.alert.alert-dismissible.fade.show class=alert_name role='alert'
+      = msg
+      button.btn-close type='button' aria-label='Close' data-bs-dismiss='alert'
