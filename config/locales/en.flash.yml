@@ -1,0 +1,12 @@
+en:
+  web:
+    auth:
+      callback:
+        failure: Authentication error
+        success: Successfully signed in into your account
+      logout:
+        success: Successfully logged out from your account
+    repositories:
+      create:
+        success: Success
+        failure: Failure

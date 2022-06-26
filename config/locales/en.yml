@@ -30,4 +30,6 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  home:
+    index:
+      text: 'A service where teams can track the quality of their public repositories. Repositories are connected to the project, which are then checked through the github check mechanism (<a href="https://docs.github.com/en/rest/reference/checks" target="_blank">https://docs.github.com/en/rest/reference/checks</a>). The result is displayed both in the github interface and on the service itself.'

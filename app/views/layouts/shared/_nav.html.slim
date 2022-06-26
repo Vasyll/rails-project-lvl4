@@ -1,11 +1,13 @@
 .container.mb-2
   .d-flex.flex-wrap.align-items-center.py-2.border-bottom
     .navbar.navbar-expand-md.navbar-light.me-auto
+      = link_to root_path, class: 'navbar-brand me-md-4'
+        = image_tag('logo.png', width: '30', alt: 'Hexlet logo')
       .collapse.navbar-collapse id='navbarToggler'
         ul.nav.nav-pills.flex-grow-1.navbar-nav.me-auto
           - if current_user.nil?
             li.nav-item.me-2
-              = link_to 'Home', root_path, class: 'navbar-brand me-md-4'
+              = link_to 'Home', root_path, class: 'nav-link text-dark'
           - else
             li.nav-item.me-2
               = link_to 'Home', root_path, class: 'nav-link text-dark'
@@ -13,8 +15,8 @@
               = link_to 'Repositories', repositories_path, class: 'nav-link text-dark'
     ul.nav.nav-pills
       - if signed_in?
-        li.nav-item.me-2
-          = link_to 'Logout', auth_logout_path, class: 'nav-link text-dark'
+        li.nav-item
+          = link_to 'Logout', auth_logout_path, class: 'nav-link link-dark'
       - else
-        li.nav-item.me-2
-          = link_to 'Sign in with github', auth_request_path(:github), method: 'post', class: 'nav-link text-dark'
+        li.nav-item
+          = link_to 'Sign in with github', auth_request_path(:github), method: 'post', class: 'nav-link link-dark'

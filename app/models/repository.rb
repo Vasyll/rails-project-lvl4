@@ -6,4 +6,6 @@ class Repository < ApplicationRecord
   belongs_to :user
 
   enumerize :language, in: %i[javascript ruby]
+
+  validates :github_id, presence: true
 end

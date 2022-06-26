@@ -2,12 +2,16 @@
 
 one:
   full_name: MyString
+  github_id: MyString
   language: MyString
   link: MyString
   name: MyString
+  user: one
 
 two:
   full_name: MyString
+  github_id: MyString
   language: MyString
   link: MyString
   name: MyString
+  user: two
