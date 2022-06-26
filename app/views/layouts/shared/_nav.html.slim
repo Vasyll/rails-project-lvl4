@@ -16,6 +16,8 @@
     ul.nav.nav-pills
       - if signed_in?
         li.nav-item
+          = link_to current_user.email, '#', class: 'nav-link text-secondary'
+        li.nav-item
           = link_to 'Logout', auth_logout_path, class: 'nav-link link-dark'
       - else
         li.nav-item
