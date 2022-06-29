@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  state: MyString
+  reference: MyString
+  check_passed: MyString
+  repository: one
+
+two:
+  state: MyString
+  reference: MyString
+  check_passed: MyString
+  repository: two
