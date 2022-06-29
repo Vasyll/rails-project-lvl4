@@ -4,10 +4,10 @@ one:
   aasm_state: false
   repository: MyString
   passed: MyString
-  repository: one
+  repository_id: one
 
 two:
   aasm_state: false
   repository: MyString
   passed: MyString
-  repository: two
+  repository_id: two
