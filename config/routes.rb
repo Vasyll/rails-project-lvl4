@@ -8,6 +8,12 @@ Rails.application.routes.draw do
     get 'auth/logout', to: 'auth#logout'
     post 'auth/:provider', to: 'auth#request', as: :auth_request
 
-    resources :repositories, only: %i[index show new create]
+    resources :repositories, only: %i[index show new create] do
+      resources :checks, module: 'repositories'
+    end
+  end
+
+  namespace :api do
+    resources :checks
   end
 end
