@@ -2,6 +2,4 @@
 
 class Api::ChecksController < Web::Repositories::ApplicationController
   def create; end
-
-  def show; end
 end
