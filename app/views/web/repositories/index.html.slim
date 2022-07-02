@@ -1,13 +1,13 @@
 .p-4.align-items-center.border.shadow.bg-white.rounded-3
   .mb-4
-    h1 Repositories
-  = link_to 'New', new_repository_path, class: 'btn btn-primary'
+    h1 = t('.repositories')
+  = link_to t('.new'), new_repository_path, class: 'btn btn-primary'
   table.table.table-striped.table-hover.mt-4
     thead
       tr
-        th Name
-        th Language
-        th Last check passed
+        th = t('.name')
+        th = t('.language')
+        th = t('.last_check_passed')
     tbody
       - @repositories.each do |repository|
         tr
