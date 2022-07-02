@@ -1,3 +1,31 @@
 .p-4.align-items-center.border.shadow.bg-white.rounded-3
   .mb-4
     h1
+  = link_to 'Go to repository', repository_path(1), class: 'btn btn-primary mb-4'
+  h1 Check #257
+  table.table
+    tr
+      td Created at
+      td July 02, 2022 16:11
+    tr
+      td Status
+      td Finished
+    tr
+      td Check passed
+      td false
+    tr
+      td Issues count
+      td 157
+  table.table.table-hover.mb-5
+    thead
+      th Message
+      th Rule
+      th Line column
+    tbody
+      tr
+        td colspan='3'
+          '/tmp/hexlet_quality_repositories/Vasyll/rails-project-lvl4/app/controllers/api/application_controller.rb
+      tr
+        td Use nested module/class definitions instead of compact style.
+        td Style/ClassAndModuleChildren
+        td 3:7
