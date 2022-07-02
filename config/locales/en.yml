@@ -52,6 +52,16 @@ en:
         sign_in: Sign in with github
   web:
     repositories:
+      checks:
+        index:
+          check_passed: Check passed
+          created_at: Created at
+          go_to_repository: Go to repository
+          issues_count: Issues count
+          line_column: Line column
+          message: Message
+          rule: Rule
+          status: Status
       index:
         language: Language
         last_check_passed: Last check passed

@@ -1,26 +1,26 @@
 .p-4.align-items-center.border.shadow.bg-white.rounded-3
   .mb-4
     h1
-  = link_to 'Go to repository', repository_path(1), class: 'btn btn-primary mb-4'
+  = link_to t('.go_to_repository'), repository_path(1), class: 'btn btn-primary mb-4'
   h1 Check #257
   table.table
     tr
-      td Created at
+      td = t('.created_at')
       td July 02, 2022 16:11
     tr
-      td Status
+      td = t('.status')
       td Finished
     tr
-      td Check passed
+      td = t('.check_passed')
       td false
     tr
-      td Issues count
+      td = t('.issues_count')
       td 157
   table.table.table-hover.mb-5
     thead
-      th Message
-      th Rule
-      th Line column
+      th = t('.message')
+      th = t('.rule')
+      th = t('.line_column')
     tbody
       tr
         td colspan='3'
