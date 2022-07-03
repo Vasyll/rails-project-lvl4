@@ -21,19 +21,10 @@ class Web::RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = current_user.repositories.build(permitted_params)
-    client = Octokit::Client.new access_token: current_user.token, per_page: 100
-    repos = client.repos
-    repos.each do |repo|
-      next if repo[:id] != @repository.github_id
+    repository = current_user.repositories.build permitted_params
 
-      @repository.full_name = repo[:full_name]
-      @repository.language = repo[:language].downcase
-      @repository.link = repo[:html_url]
-      @repository.name = repo[:name]
-    end
-
-    if @repository.save
+    if repository.save
+      UpdateInfoRepositoryJob.perform_later repository.id, current_user.token
       redirect_to repositories_path, notice: t('.success')
     else
       render :new, alert: t('.failure')
