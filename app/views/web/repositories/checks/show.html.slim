@@ -6,16 +6,16 @@
   table.table
     tr
       td = t('.created_at')
-      td July 02, 2022 16:11
+      td = @check.created_at
     tr
       td = t('.status')
       td Finished
     tr
       td = t('.check_passed')
-      td false
+      td = @check.passed
     tr
       td = t('.issues_count')
-      td 157
+      td = @check.issues_count
   table.table.table-hover.mb-5
     thead
       th = t('.message')
@@ -29,3 +29,5 @@
         td Use nested module/class definitions instead of compact style.
         td Style/ClassAndModuleChildren
         td 3:7
+  p
+    = @check.result

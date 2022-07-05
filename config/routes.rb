@@ -9,11 +9,11 @@ Rails.application.routes.draw do
     post 'auth/:provider', to: 'auth#request', as: :auth_request
 
     resources :repositories, only: %i[index show new create] do
-      resources :checks, module: 'repositories'
+      resources :checks, only: %w[show create], module: 'repositories'
     end
   end
 
   namespace :api do
-    resources :checks
+    resources :checks, only: %w[create]
   end
 end

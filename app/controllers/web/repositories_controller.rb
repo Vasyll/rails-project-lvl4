@@ -7,6 +7,7 @@ class Web::RepositoriesController < ApplicationController
 
   def show
     @repository = Repository.find(params[:id])
+    @checks = @repository.checks.all
   end
 
   def new
