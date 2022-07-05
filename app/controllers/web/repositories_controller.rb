@@ -7,7 +7,7 @@ class Web::RepositoriesController < ApplicationController
 
   def show
     @repository = Repository.find(params[:id])
-    @checks = @repository.checks.all
+    @checks = @repository.checks.all.order(created_at: :desc)
   end
 
   def new

@@ -6,9 +6,9 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
 
     if check.save
       CheckRepositoryJob.perform_later check.id
-      redirect_to repository_path(check.repository_id), notice: 'Check created'
+      redirect_to repository_path(check.repository_id), notice: t('.success')
     else
-      redirect_to repository_path(check.repository_id), alert: 'failure'
+      redirect_to repository_path(check.repository_id), alert: t('.failure')
     end
   end
 

@@ -7,6 +7,9 @@ en:
       logout:
         success: Successfully logged out from your account
     repositories:
+      checks:
+        failure: Check created failure
+        success: Check created
       create:
-        success: Success
         failure: Failure
+        success: Success
