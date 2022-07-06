@@ -16,7 +16,7 @@ class CheckRepositoryJob < ApplicationJob
      puts "=== git clone ===  #{stdout} #{exit_status.exitstatus}"
 
     if repository.language == 'javascript'
-      stdout, exit_status = Open3.popen3("yarn run eslint #{path_temp} -f json >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+      stdout, exit_status = Open3.popen3("yarn run eslint #{path_temp} -c './.eslintrc.yml' -f json >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
        puts "=== yarn run eslint ===  #{stdout} #{exit_status.exitstatus}"
 
       eslint_out = JSON.parse(File.readlines("#{path_temp}/eslint.json")[2])
