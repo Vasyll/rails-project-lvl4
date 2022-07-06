@@ -12,34 +12,34 @@ class CheckRepositoryJob < ApplicationJob
 
     path_temp = "./tmp/hexlet_quality_repositories/#{repository.full_name}"
 
-    _stdin, stdout, stderr, wait_thr = Open3.popen3("git clone #{repository.clone_url} #{path_temp}")
-    Rails.logger.debug { "==git clone== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    stdout, exit_status = Open3.popen3("git clone #{repository.clone_url} #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+    # puts "=== git clone ===  #{stdout} #{exit_status.exitstatus}"
 
     if repository.language == 'javascript'
-      _stdin, stdout, stderr, wait_thr = Open3.popen3("yarn run eslint #{path_temp} -f json >#{path_temp}/eslint.json")
-      Rails.logger.debug { "==eslint== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      stdout, exit_status = Open3.popen3("yarn run eslint #{path_temp} -f json >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+      # puts "=== yarn run eslint ===  #{stdout} #{exit_status.exitstatus}"
 
       eslint_out = JSON.parse(File.readlines("#{path_temp}/eslint.json")[2])
       check.result, check.issues_count = parse_eslint(eslint_out)
     end
 
     if repository.language == 'ruby'
-      _stdin, stdout, stderr, wait_thr = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json")
-      Rails.logger.debug { "==rubocop== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      stdout, exit_status = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+      # puts "=== bundle exec rubocop ===  #{stdout} #{exit_status.exitstatus}"
 
       rubocop_out = JSON.parse(File.read("#{path_temp}/rubocop.json"))
       check.result, check.issues_count = parse_rubocop(rubocop_out)
     end
 
-    _stdin, stdout, stderr, wait_thr = Open3.popen3("git -C #{path_temp} rev-parse --short HEAD")
-    Rails.logger.debug { "==git== #{stderr.read} #{wait_thr.value.exitstatus}" }
+    stdout, exit_status = Open3.popen3("git -C #{path_temp} rev-parse --short HEAD") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+    # puts "=== git -C ===  #{stdout} #{exit_status.exitstatus}"
 
-    check.reference = stdout.read.chop
+    check.reference = stdout.chop
     check.finish!
     check.save
 
-    _stdin, stdout, stderr, wait_thr = Open3.popen3("rm -r #{path_temp}")
-    Rails.logger.debug { "==rm -r== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    stdout, exit_status = Open3.popen3("rm -r #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+    # puts "=== rm -re ===  #{stdout} #{exit_status.exitstatus}"
   end
 
   private
