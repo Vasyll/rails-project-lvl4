@@ -10,7 +10,7 @@ class CheckRepositoryJob < ApplicationJob
     check.start!
     repository = Repository.find(check.repository_id)
 
-    path_temp = "================ ./tmp/hexlet_quality_repositories/#{repository.full_name}"
+    path_temp = "./tmp/hexlet_quality_repositories/#{repository.full_name}"
     puts path_temp
     puts "================== git clone #{repository.clone_url} #{path_temp}"
     _stdin, stdout, stderr, wait_thr = Open3.popen3("git clone #{repository.clone_url} #{path_temp}")
