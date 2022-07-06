@@ -12,11 +12,13 @@ class CheckRepositoryJob < ApplicationJob
 
     path_temp = "./tmp/hexlet_quality_repositories/#{repository.full_name}"
     _stdin, stdout, stderr, wait_thr = Open3.popen3("git clone #{repository.clone_url} #{path_temp}")
-    Rails.logger.debug { "==git clone== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    #Rails.logger.debug { "==git clone== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    puts "#{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}"
 
     if repository.language == 'javascript'
       _stdin, stdout, stderr, wait_thr = Open3.popen3("yarn run eslint #{path_temp} -f json >#{path_temp}/eslint.json")
-      Rails.logger.debug { "==eslint== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      #Rails.logger.debug { "==eslint== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      puts "#{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}"
 
       eslint_out = JSON.parse(File.readlines("#{path_temp}/eslint.json")[2])
       check.result, check.issues_count = parse_eslint(eslint_out)
@@ -24,20 +26,24 @@ class CheckRepositoryJob < ApplicationJob
 
     if repository.language == 'ruby'
       _stdin, stdout, stderr, wait_thr = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json")
-      Rails.logger.debug { "==rubocop== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      #Rails.logger.debug { "==rubocop== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+      puts "#{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}"
 
       rubocop_out = JSON.parse(File.read("#{path_temp}/rubocop.json"))
       check.result, check.issues_count = parse_rubocop(rubocop_out)
     end
 
     _stdin, stdout, stderr, wait_thr = Open3.popen3("git -C #{path_temp} rev-parse --short HEAD")
-    Rails.logger.debug { "==git== #{stderr.read} #{wait_thr.value.exitstatus}" }
+    #Rails.logger.debug { "==git== #{stderr.read} #{wait_thr.value.exitstatus}" }
+    puts "#{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}"
+
     check.reference = stdout.read.chop
     check.finish!
     check.save
 
     _stdin, stdout, stderr, wait_thr = Open3.popen3("rm -r #{path_temp}")
-    Rails.logger.debug { "==rm -r== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    #Rails.logger.debug { "==rm -r== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
+    puts "#{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}"
   end
 
   private
