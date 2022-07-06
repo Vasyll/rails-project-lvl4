@@ -16,6 +16,8 @@ class UpdateInfoRepositoryJob < ApplicationJob
       repository.name = repo[:name]
       repository.clone_url = repo[:clone_url]
       puts repo.inspect
+      puts "================= #{repo[:clone_url]}"
+      puts "================= #{repository.clone_url}"
     end
     #repository.save
     puts "UpdateInfo #{repository.inspect}"
