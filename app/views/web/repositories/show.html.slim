@@ -15,7 +15,7 @@
     strong.me-2 = "#{t('.updated_at')}:"
     = @repository.updated_at.strftime('%B %d, %Y %H:%M')
   p
-    = @repository.inspect
+    = @repository.clone_url
   hr
   table.table.table-striped
     thead
