@@ -16,8 +16,7 @@ class CheckRepositoryJob < ApplicationJob
      puts "=== git clone ===  #{stdout} #{exit_status.exitstatus}"
 
     if repository.language == 'javascript'
-      stdout, exit_status = Open3.popen3("yarn run eslint #{path_temp} -c #{Rails.root.join('.eslintrc.yml')} -f json >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-       puts "yarn run eslint #{path_temp} -c #{Rails.root.join('.eslintrc.yml')} -f json >#{path_temp}/eslint.json"
+      stdout, exit_status = Open3.popen3("yarn run eslint #{path_temp} -f json >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
        puts "=== yarn run eslint ===  #{stdout} #{exit_status.exitstatus}"
 
       eslint_out = JSON.parse(File.readlines("#{path_temp}/eslint.json")[2])
@@ -39,8 +38,8 @@ class CheckRepositoryJob < ApplicationJob
     check.finish!
     check.save
 
-    stdout, exit_status = Open3.popen3("rm -r #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-     puts "=== rm -re ===  #{stdout} #{exit_status.exitstatus}"
+    #stdout, exit_status = Open3.popen3("rm -r #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+    # puts "=== rm -re ===  #{stdout} #{exit_status.exitstatus}"
   end
 
   private
