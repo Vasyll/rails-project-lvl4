@@ -6,10 +6,10 @@
   table.table
     tr
       td = t('.created_at')
-      td = @check.created_at
+      td = @check.created_at.strftime('%B %d, %Y %H:%M')
     tr
       td = t('.status')
-      td Finished
+      td = @check.aasm.human_state
     tr
       td = t('.check_passed')
       td = @check.passed
@@ -22,12 +22,14 @@
       th = t('.rule')
       th = t('.line_column')
     tbody
-      tr
-        td colspan='3'
-          '/tmp/hexlet_quality_repositories/Vasyll/rails-project-lvl4/app/controllers/api/application_controller.rb
-      tr
-        td Use nested module/class definitions instead of compact style.
-        td Style/ClassAndModuleChildren
-        td 3:7
-  p
-    = @check.result
+      - result = JSON.parse(@check.result)
+      - result.each do |line, _value|
+        - if line['file_path']
+          tr
+            td colspan='3'
+              a href=line['file_path'] = line['file_path']
+        - if line['message']
+          tr
+            td = line['message']
+            td = line['rule']
+            td = line['line_column']

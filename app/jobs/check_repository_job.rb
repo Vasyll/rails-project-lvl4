@@ -60,7 +60,7 @@ class CheckRepositoryJob < ApplicationJob
       end
       issues_count += file['errorCount'].to_i
     end
-    [result, issues_count]
+    [JSON.generate(result).to_s, issues_count]
   end
 
   def parse_rubocop(rubocop_out)
@@ -80,6 +80,6 @@ class CheckRepositoryJob < ApplicationJob
         }
       end
     end
-    [result, rubocop_out['summary']['offense_count'].to_i]
+    [JSON.generate(result).to_s, rubocop_out['summary']['offense_count'].to_i]
   end
 end

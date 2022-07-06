@@ -10,10 +10,10 @@
     = @repository.language
   p
     strong.me-2 = "#{t('.created_at')}:"
-    = @repository.created_at.strftime('%B %d,%Y %H:%M')
+    = @repository.created_at.strftime('%B %d, %Y %H:%M')
   p
     strong.me-2 = "#{t('.updated_at')}:"
-    = @repository.updated_at.strftime('%B %d,%Y %H:%M')
+    = @repository.updated_at.strftime('%B %d, %Y %H:%M')
   hr
   table.table.table-striped
     thead
