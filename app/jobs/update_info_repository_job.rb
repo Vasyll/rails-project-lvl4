@@ -23,6 +23,8 @@ class UpdateInfoRepositoryJob < ApplicationJob
     puts "UpdateInfo #{repository.inspect}"
     if repository.save
       puts "UpdateInfo OK"
+      rep = Repository.find(repo_id)
+      puts "================= #{rep.clone_url}"
     else
       puts "UpdateInfo Fail"
     end 
