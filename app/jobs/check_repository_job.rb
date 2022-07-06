@@ -12,6 +12,7 @@ class CheckRepositoryJob < ApplicationJob
 
     path_temp = "./tmp/hexlet_quality_repositories/#{repository.full_name}"
     puts path_temp
+    puts repository.clone_url
     puts "================== git clone #{repository.clone_url} #{path_temp}"
     _stdin, stdout, stderr, wait_thr = Open3.popen3("git clone #{repository.clone_url} #{path_temp}")
     #Rails.logger.debug { "==git clone== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
