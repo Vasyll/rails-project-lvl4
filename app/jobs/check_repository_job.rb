@@ -16,10 +16,11 @@ class CheckRepositoryJob < ApplicationJob
      puts "=== git clone ===  #{stdout} #{exit_status.exitstatus}"
 
     if repository.language == 'javascript'
-      stdout, exit_status = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+      #stdout, exit_status = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
+      stdout, exit_status = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }       
        puts "=== yarn run eslint ===  #{stdout} #{exit_status.exitstatus}"
 
-      eslint_out = JSON.parse(File.read("#{path_temp}/eslint.json"))
+      eslint_out = JSON.parse(File.read("./eslint.json"))
       check.result, check.issues_count = parse_eslint(eslint_out)
     end
 
