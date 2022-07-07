@@ -12,35 +12,26 @@ class CheckRepositoryJob < ApplicationJob
 
     path_temp = "./tmp/hexlet_quality_repositories/#{repository.full_name}"
 
-    stdout, exit_status = Open3.popen3("git clone #{repository.clone_url} #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-     puts "=== git clone ===  #{stdout} #{exit_status.exitstatus}"
+    Open3.popen3("git clone #{repository.clone_url} #{path_temp}")
 
     if repository.language == 'javascript'
-      #stdout, exit_status = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc >#{path_temp}/eslint.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-      stdout, exit_status = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-       puts "=== yarn run eslint ===  #{stdout} #{exit_status.exitstatus}"
-
-      #eslint_out = JSON.parse(File.read("./eslint.json"))
-      check.result, check.issues_count = parse_eslint(JSON.parse(stdout))
+      stdout_eslint = Open3.popen3("./node_modules/eslint/bin/eslint.js #{path_temp} -f json -c ./.eslintrc.js --no-eslintrc") { |_stdin, stdout, _stderr, _wait_thr| [stdout.read] }
+      check.result, check.issues_count = parse_eslint(JSON.parse(stdout_eslint.to_s))
     end
 
     if repository.language == 'ruby'
-      stdout, exit_status = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-       puts "=== bundle exec rubocop ===  #{stdout} #{exit_status.exitstatus}"
+      stdout_rubocop = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json") { |_stdin, stdout, _stderr, _wait_thr| [stdout.read] }
 
-      rubocop_out = JSON.parse(File.read("#{path_temp}/rubocop.json"))
-      check.result, check.issues_count = parse_rubocop(rubocop_out)
+      check.result, check.issues_count = parse_rubocop(JSON.parse(stdout_rubocop))
     end
 
-    stdout, exit_status = Open3.popen3("git -C #{path_temp} rev-parse --short HEAD") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-     puts "=== git -C ===  #{stdout} #{exit_status.exitstatus}"
+    stdout_rev = Open3.popen3("git -C #{path_temp} rev-parse --short HEAD") { |_stdin, stdout, _stderr, _wait_thr| [stdout.read] }
 
-    check.reference = stdout.chop
+    check.reference = stdout_rev.chop
     check.finish!
     check.save
 
-    stdout, exit_status = Open3.popen3("rm -r #{path_temp}") { |_stdin, stdout, _stderr, wait_thr| [stdout.read, wait_thr.value] }
-     puts "=== rm -re ===  #{stdout} #{exit_status.exitstatus}"
+    Open3.popen3("rm -r #{path_temp}")
   end
 
   private
@@ -50,6 +41,7 @@ class CheckRepositoryJob < ApplicationJob
     issues_count = 0
 
     eslint_out.each do |file, _value|
+      puts file
       next if file['errorCount'].zero?
 
       result << { 'file_path' => file['filePath'] }
