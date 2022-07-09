@@ -1,0 +1,24 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.0
+  DisplayCopNames: true
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - '**/schema.rb'
+
+Style/StringLiterals:
+  Enabled: true
+  # EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  # EnforcedStyle: double_quotes
+
+Layout/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false

@@ -23,7 +23,7 @@ class CheckRepositoryJob < ApplicationJob
     end
 
     if repository.language == 'ruby'
-      _stdin, stdout, stderr, wait_thr = Open3.popen3("bundle exec rubocop #{path_temp} -f json >#{path_temp}/rubocop.json")
+      _stdin, stdout, stderr, wait_thr = Open3.popen3("bundle exec rubocop #{path_temp} -f json -c ./.rubocop_for_repo.yml >#{path_temp}/rubocop.json")
       Rails.logger.debug { "==rubocop== #{stdout.read} #{stderr.read} #{wait_thr.value.exitstatus}" }
 
       rubocop_out = JSON.parse(File.read("#{path_temp}/rubocop.json"))
